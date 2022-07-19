@@ -1,6 +1,3 @@
-if (process.env.NODE_ENV !== "production"){
-    require('dotenv').config();
-}
 
 const express = require('express');
 const path = require('path');
@@ -11,8 +8,6 @@ const methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 const app= express();
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/img-gallery';
-// mongoose.connect('mongodb://localhost:27017/img-gallery',{
-
 mongoose.connect(dbUrl,{
   
         useNewUrlParser:true,
@@ -35,9 +30,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(methodOverride('_method'));
 
-app.get('/', (req, res) => {
-    res.render('images/index')
-})
+// app.get('/', (req, res) => {
+//     res.render('images/index')
+// })
 
 app.get('/mk', async (req, res) => {
     const camp = new Image({ImgName: 'newimg',ImgURL:'https://source.unsplash.com/collection/483251', ImgDetails: 'new listing'});
@@ -75,7 +70,9 @@ app.delete('/images/:id', async(req, res) => {
     await Image.findByIdAndDelete(id);
     res.redirect('/images');
 })
-const port= process.env.PORT || 3000;
+
+const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
-    console.log(`Serving on port ${port}`)
+    console.log(`Serving on {port}`)
 })
